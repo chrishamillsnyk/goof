@@ -9,7 +9,7 @@ require('./typeorm-db')
 var st = require('st');
 var crypto = require('crypto');
 var express = require('express');
-var http = require('http');
+var http = require('https');
 var path = require('path');
 var ejsEngine = require('ejs-locals');
 var bodyParser = require('body-parser');
@@ -40,7 +40,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(methodOverride());
 app.use(session({
-  secret: 'keyboard cat',
+  secret: '',
   name: 'connect.sid',
   cookie: { path: '/' }
 }))
