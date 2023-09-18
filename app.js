@@ -68,7 +68,7 @@ app.put('/chat', routes.chat.add);
 app.delete('/chat', routes.chat.delete);
 app.use('/users', routesUsers)
 
-// Static
+// Static test
 app.use(st({ path: './public', url: '/public' }));
 
 // Add the option to output (sanitized!) markdown
