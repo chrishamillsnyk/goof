@@ -1,0 +1,45 @@
+trigger:
+  branches:
+    include:
+    - master
+stages:
+- stage: __default
+  jobs:
+  - job: Job
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: CmdLine@2
+      displayName: 'npm install'
+      inputs:
+        script: |
+          npm install
+    - task: CmdLine@2
+      displayName: 'install snyk'
+      inputs:
+        script: |
+          sudo npm install -g snyk
+          # create variable in Pipelines called 'SNYK_TOKEN' and securely save your Snyk token value
+          # https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables
+          sudo snyk auth $(SNYK_TOKEN)
+    - task: CmdLine@2
+      displayName: 'sudo snyk test'
+      inputs:
+        script: |
+          sudo snyk test || true
+    - task: CmdLine@2
+      displayName: 'sudo snyk code test'
+      inputs:
+        script: |
+          sudo snyk code test || true
+    - task: CmdLine@2
+      displayName: 'snyk iac test --report'
+      inputs:
+        script: |
+          sudo snyk iac test --report || true
+    - task: CmdLine@2
+      displayName: 'snyk container test snyk/snyk-container-demo'
+      inputs:
+        script: |
+          sudo snyk container test snyk/snyk-container-demo || true
+
